@@ -52,6 +52,9 @@ public class GamePage extends JPanel{
     public boolean enableDiary = true;
     public String currentLocation = Constants.treeHouse;
     public Image backgroundImage;
+    public boolean drawName = false;
+    public int timer = 0;
+    
     public GamePage(Game game) throws IOException{
         this.game = game;
         this.setBounds(0,0,Width,Height);
@@ -146,6 +149,10 @@ public class GamePage extends JPanel{
         }
         if(teleporter.isExpanded)
             teleporter.drawMenu(g);
+        if(onHand!=null && drawName){
+            g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+            g.drawString(onHand.toString(), 520, 620);
+        }
     }
     
     public void animateCharacter(){

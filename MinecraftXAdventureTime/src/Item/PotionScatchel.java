@@ -29,6 +29,7 @@ public class PotionScatchel extends Items{
         inventory.setBackground(Color.darkGray);
         inventory.setBounds(1280/2-389/2-100,720/2-174/2-20,45,217);
         inventory.setLayout(null);
+        name = "Potion Scatchel";
     }
     
     //Method add potion into scctchel

@@ -80,6 +80,11 @@ public class Game implements Runnable{
 //                System.out.println("UPS = " + update);
                 frame = 0;
                 update = 0;
+                gamePage.timer++;
+                if(gamePage.timer==3){
+                    gamePage.timer = 0;
+                    gamePage.drawName = false;
+                }
             }
         }
     }

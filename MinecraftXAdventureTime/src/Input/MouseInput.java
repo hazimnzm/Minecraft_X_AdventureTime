@@ -7,6 +7,9 @@ import Item.*;
 import Pages.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MouseInput implements MouseListener{
     StartingPage startingPage;
@@ -37,6 +40,8 @@ public class MouseInput implements MouseListener{
                 else if(!gamePage.enderBackpack.isExpanded){
                     gamePage.enderBackpack.chooseItem(i, gamePage);
                     System.out.println(gamePage.onHand);
+                    gamePage.timer = 0;
+                    gamePage.drawName = true;
                 }
             return;
             }
@@ -128,13 +133,29 @@ public class MouseInput implements MouseListener{
             }
         }
         else if(e.getSource() == gamePage.teleporter.treeHouseButton)
-            gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.treeHouse);
+            try {
+                gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.treeHouse);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(MouseInput.class.getName()).log(Level.SEVERE, null, ex);
+        }
         else if(e.getSource() == gamePage.teleporter.iceKingdomButton)
-            gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.iceKingdom);
+            try {
+                gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.iceKingdom);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(MouseInput.class.getName()).log(Level.SEVERE, null, ex);
+        }
         else if(e.getSource() == gamePage.teleporter.fireKingdomButton)
-            gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.fireKingdom);
+            try {
+                gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.fireKingdom);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(MouseInput.class.getName()).log(Level.SEVERE, null, ex);
+        }
         else if(e.getSource() == gamePage.teleporter.candyKingdomButton)
-            gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.candyKingdom);
+            try {
+                gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.candyKingdom);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(MouseInput.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

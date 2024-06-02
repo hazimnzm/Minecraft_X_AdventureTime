@@ -22,6 +22,7 @@ public class AdventurerDiary extends Items{
         entries = new LinkedHashMap<>();
         previousHash = null;
         icon = new ImageIcon("Item Icon/AdventurerDiary.png");
+        name = "The Adventurer Diary";
     }
     
     

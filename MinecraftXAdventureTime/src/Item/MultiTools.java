@@ -17,15 +17,14 @@ public class MultiTools extends Items{
     public ToolNode current;
     ArrayList<BackpackButton> slot;
     ArrayList<Items> inventory;
-    
     public MultiTools(ArrayList<Items> inventory, ArrayList<BackpackButton> slot) {
         this.head = null;
         this.tail = null;
         this.current = head;
-        addTool("Sword" + 1,1, 100, 1);
-        addTool("Sword" + 2,1, 100, 2);
-        addTool("Sword" + 3,1, 100, 3);
-        addTool("Sword" + 4,1, 100, 4);
+        addTool("Sword " + 1,1, 100, 1);
+        addTool("Sword " + 2,1, 100, 2);
+        addTool("Sword " + 3,1, 100, 3);
+        addTool("Sword " + 4,1, 100, 4);
         this.icon = head.icon;
         this.slot = slot;
         this.inventory = inventory;
@@ -67,7 +66,7 @@ public class MultiTools extends Items{
             current.repair(amount);
         }
     }
-
+    
     public void switchMode(String type) {
         ToolNode temp = head;
         while (temp != null) {
@@ -92,5 +91,10 @@ public class MultiTools extends Items{
             System.out.println(temp);
             temp = temp.next;
         }
+    }
+    
+    @Override
+    public String toString(){
+        return getCurrentTool().toString();
     }
 }

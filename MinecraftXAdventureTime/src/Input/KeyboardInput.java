@@ -126,27 +126,40 @@ public class KeyboardInput implements KeyListener{
             if(e.getKeyChar()=='1' && !gamePage.isAttacking){
                 if(gamePage.onHand.getClass()==MultiTools.class){
                     MultiTools temp = (MultiTools)gamePage.onHand;
-                    temp.switchMode("Sword" + 1);
+                    temp.switchMode("Sword " + 1);
+                    System.out.println(1);
+                    gamePage.timer = 0;
+                    gamePage.drawName = true;
                 }
             }
             else if(e.getKeyChar()=='2' && !gamePage.isAttacking){
                 if(gamePage.onHand.getClass()==MultiTools.class){
                     MultiTools temp = (MultiTools)gamePage.onHand;
-                    temp.switchMode("Sword" + 2);
+                    temp.switchMode("Sword " + 2);
+                    System.out.println(2);
+                    gamePage.timer = 0;
+                    gamePage.drawName = true;
                 }
             }
             else if(e.getKeyChar()=='3' && !gamePage.isAttacking){
                 if(gamePage.onHand.getClass()==MultiTools.class){
                     MultiTools temp = (MultiTools)gamePage.onHand;
-                    temp.switchMode("Sword" + 3);
+                    temp.switchMode("Sword " + 3);
+                    System.out.println(3);
+                    gamePage.timer = 0;
+                    gamePage.drawName = true;
                 }
             }
             else if(e.getKeyChar()=='4' && !gamePage.isAttacking){
                 if(gamePage.onHand.getClass()==MultiTools.class){
                     MultiTools temp = (MultiTools)gamePage.onHand;
-                    temp.switchMode("Sword" + 4);
+                    temp.switchMode("Sword " + 4);
+                    System.out.println(4);
+                    gamePage.timer = 0;
+                    gamePage.drawName = true;
                 }
             }
+
             if(gamePage.enderBackpack.isExpanded)
                 gamePage.enderBackpack.expand();
             else

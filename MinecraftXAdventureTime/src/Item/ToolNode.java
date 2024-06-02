@@ -94,6 +94,6 @@ public class ToolNode {
     
     @Override
     public String toString() {
-        return type + " (Level " + level + ", Damage " + damage + "/" + MAX_DAMAGE + ")";
+        return type + "  Level " + level;
     }
 }
