@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class MainChest extends JButton{
+public class Chest extends JButton{
     public boolean isOpen;
     public ImageIcon openImage = new ImageIcon("Item Image/ChestOpen.png");
     public ImageIcon closeImage = new ImageIcon("Item Image/ChestClose.png");
@@ -23,7 +23,7 @@ public class MainChest extends JButton{
     private Border chosenBorder = BorderFactory.createLineBorder(chosenColor,3);
     int size = 0;
     GamePage gamePage;
-    public MainChest(GamePage gamePage){
+    public Chest(GamePage gamePage){
         this.gamePage = gamePage;
         this.setBounds(100,513,22,40);
         this.setBackground(Color.black);
@@ -43,16 +43,21 @@ public class MainChest extends JButton{
             slot[i] = gamePage.createChestButton();
         }
     }
-    public void addItem(Items item){
+    
+    public boolean addItem(Items item){
         if(!isFull()){
             for(int i=0 ; i<9 ; i++){
                 if(slot[i].item==null){
                     slot[i].addItem(item);
                     size++;
-                    return;
+                    if(gamePage.sortingSystem.insert(item)){
+                        removeItem(i);
+                    }
+                    return true;
                 }
             }
         }
+        return false;
     }
     
     public Items removeItem(int index){

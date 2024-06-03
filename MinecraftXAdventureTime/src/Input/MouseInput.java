@@ -37,6 +37,22 @@ public class MouseInput implements MouseListener{
                     gamePage.mainChest.addItem((Items)gamePage.enderBackpack.inventory.get(i));
                     gamePage.enderBackpack.removeItem(i);
                 }
+                else if(gamePage.sortingSystem.healthPotionChest.isOpen && !gamePage.sortingSystem.healthPotionChest.isFull()){
+                    if(gamePage.sortingSystem.healthPotionChest.addItem((Items)gamePage.enderBackpack.inventory.get(i)))
+                        gamePage.enderBackpack.removeItem(i);
+                }
+                else if(gamePage.sortingSystem.regenerationPotionChest.isOpen && !gamePage.sortingSystem.regenerationPotionChest.isFull()){
+                    if(gamePage.sortingSystem.regenerationPotionChest.addItem((Items)gamePage.enderBackpack.inventory.get(i)))
+                        gamePage.enderBackpack.removeItem(i);
+                }
+                else if(gamePage.sortingSystem.leapingPotionChest.isOpen && !gamePage.sortingSystem.leapingPotionChest.isFull()){
+                    if(gamePage.sortingSystem.leapingPotionChest.addItem((Items)gamePage.enderBackpack.inventory.get(i)))
+                        gamePage.enderBackpack.removeItem(i);
+                }
+                else if(gamePage.sortingSystem.swiftnessPotionChest.isOpen && !gamePage.sortingSystem.swiftnessPotionChest.isFull()){
+                    if(gamePage.sortingSystem.swiftnessPotionChest.addItem((Items)gamePage.enderBackpack.inventory.get(i)))
+                        gamePage.enderBackpack.removeItem(i);
+                }
                 else if(!gamePage.enderBackpack.isExpanded){
                     gamePage.enderBackpack.chooseItem(i, gamePage);
                     System.out.println(gamePage.onHand);
@@ -50,6 +66,22 @@ public class MouseInput implements MouseListener{
         for(int i=0 ; i<9 ; i++){
             if(e.getSource()==gamePage.mainChest.slot[i] && gamePage.mainChest.slot[i].item != null){
                 Items temp  = gamePage.mainChest.removeItem(i);
+                gamePage.addNewSlot(gamePage.enderBackpack.getInventorySize(), temp);
+            }
+            else if(e.getSource()==gamePage.sortingSystem.healthPotionChest.slot[i] && gamePage.sortingSystem.healthPotionChest.slot[i].item != null){
+                Items temp  = gamePage.sortingSystem.healthPotionChest.removeItem(i);
+                gamePage.addNewSlot(gamePage.enderBackpack.getInventorySize(), temp);
+            }
+            else if(e.getSource()==gamePage.sortingSystem.regenerationPotionChest.slot[i] && gamePage.sortingSystem.regenerationPotionChest.slot[i].item != null){
+                Items temp  = gamePage.sortingSystem.regenerationPotionChest.removeItem(i);
+                gamePage.addNewSlot(gamePage.enderBackpack.getInventorySize(), temp);
+            }
+            else if(e.getSource()==gamePage.sortingSystem.leapingPotionChest.slot[i] && gamePage.sortingSystem.leapingPotionChest.slot[i].item != null){
+                Items temp  = gamePage.sortingSystem.leapingPotionChest.removeItem(i);
+                gamePage.addNewSlot(gamePage.enderBackpack.getInventorySize(), temp);
+            }
+            else if(e.getSource()==gamePage.sortingSystem.swiftnessPotionChest.slot[i] && gamePage.sortingSystem.swiftnessPotionChest.slot[i].item != null){
+                Items temp  = gamePage.sortingSystem.swiftnessPotionChest.removeItem(i);
                 gamePage.addNewSlot(gamePage.enderBackpack.getInventorySize(), temp);
             }
         }
@@ -99,7 +131,7 @@ public class MouseInput implements MouseListener{
                 gamePage.enableInventory = true;
                 gamePage.enableDiary = true;
                 gamePage.enableScatchel = true;
-                gamePage.mainChest.minimize();;
+                gamePage.mainChest.minimize();
             }
             else{
                 gamePage.mainChest.setIcon(gamePage.mainChest.openImage);
@@ -111,7 +143,90 @@ public class MouseInput implements MouseListener{
                 gamePage.move = false;
                 gamePage.mainChest.expand();
             }
-            
+        }
+        else if(e.getSource() == gamePage.sortingSystem.healthPotionChest && gamePage.playerXPosition - 200 >= -65 && gamePage.playerXPosition - 200 < 32){
+            if(gamePage.sortingSystem.healthPotionChest.isOpen){
+                gamePage.sortingSystem.healthPotionChest.setIcon(gamePage.mainChest.closeImage);
+                gamePage.sortingSystem.healthPotionChest.isOpen = false;
+                gamePage.enableMovement = true;
+                gamePage.enableInventory = true;
+                gamePage.enableDiary = true;
+                gamePage.enableScatchel = true;
+                gamePage.sortingSystem.healthPotionChest.minimize();;
+            }
+            else{
+                gamePage.sortingSystem.healthPotionChest.setIcon(gamePage.mainChest.openImage);
+                gamePage.sortingSystem.healthPotionChest.isOpen = true;
+                gamePage.enableMovement = false;
+                gamePage.enableInventory = false;
+                gamePage.enableDiary = false;
+                gamePage.enableScatchel = false;
+                gamePage.move = false;
+                gamePage.sortingSystem.healthPotionChest.expand();
+            }
+        }
+        else if(e.getSource() == gamePage.sortingSystem.regenerationPotionChest && gamePage.playerXPosition - 200 >= -65 && gamePage.playerXPosition - 200 < 32){
+            if(gamePage.sortingSystem.regenerationPotionChest.isOpen){
+                gamePage.sortingSystem.regenerationPotionChest.setIcon(gamePage.mainChest.closeImage);
+                gamePage.sortingSystem.regenerationPotionChest.isOpen = false;
+                gamePage.enableMovement = true;
+                gamePage.enableInventory = true;
+                gamePage.enableDiary = true;
+                gamePage.enableScatchel = true;
+                gamePage.sortingSystem.regenerationPotionChest.minimize();;
+            }
+            else{
+                gamePage.sortingSystem.regenerationPotionChest.setIcon(gamePage.mainChest.openImage);
+                gamePage.sortingSystem.regenerationPotionChest.isOpen = true;
+                gamePage.enableMovement = false;
+                gamePage.enableInventory = false;
+                gamePage.enableDiary = false;
+                gamePage.enableScatchel = false;
+                gamePage.move = false;
+                gamePage.sortingSystem.regenerationPotionChest.expand();
+            }
+        }
+        else if(e.getSource() == gamePage.sortingSystem.swiftnessPotionChest && gamePage.playerXPosition - 200 >= -65 && gamePage.playerXPosition - 200 < 32){
+            if(gamePage.sortingSystem.swiftnessPotionChest.isOpen){
+                gamePage.sortingSystem.swiftnessPotionChest.setIcon(gamePage.mainChest.closeImage);
+                gamePage.sortingSystem.swiftnessPotionChest.isOpen = false;
+                gamePage.enableMovement = true;
+                gamePage.enableInventory = true;
+                gamePage.enableDiary = true;
+                gamePage.enableScatchel = true;
+                gamePage.sortingSystem.swiftnessPotionChest.minimize();;
+            }
+            else{
+                gamePage.sortingSystem.swiftnessPotionChest.setIcon(gamePage.mainChest.openImage);
+                gamePage.sortingSystem.swiftnessPotionChest.isOpen = true;
+                gamePage.enableMovement = false;
+                gamePage.enableInventory = false;
+                gamePage.enableDiary = false;
+                gamePage.enableScatchel = false;
+                gamePage.move = false;
+                gamePage.sortingSystem.swiftnessPotionChest.expand();
+            }
+        }
+        else if(e.getSource() == gamePage.sortingSystem.leapingPotionChest && gamePage.playerXPosition - 200 >= -65 && gamePage.playerXPosition - 200 < 32){
+            if(gamePage.sortingSystem.leapingPotionChest.isOpen){
+                gamePage.sortingSystem.leapingPotionChest.setIcon(gamePage.mainChest.closeImage);
+                gamePage.sortingSystem.leapingPotionChest.isOpen = false;
+                gamePage.enableMovement = true;
+                gamePage.enableInventory = true;
+                gamePage.enableDiary = true;
+                gamePage.enableScatchel = true;
+                gamePage.sortingSystem.leapingPotionChest.minimize();;
+            }
+            else{
+                gamePage.sortingSystem.leapingPotionChest.setIcon(gamePage.mainChest.openImage);
+                gamePage.sortingSystem.leapingPotionChest.isOpen = true;
+                gamePage.enableMovement = false;
+                gamePage.enableInventory = false;
+                gamePage.enableDiary = false;
+                gamePage.enableScatchel = false;
+                gamePage.move = false;
+                gamePage.sortingSystem.leapingPotionChest.expand();
+            }
         }
         else if(e.getSource() == gamePage.teleporter && gamePage.playerXPosition - 1120 >= -65 && gamePage.playerXPosition - 1120 < 100){
             if(gamePage.teleporter.isExpanded){
@@ -170,6 +285,10 @@ public class MouseInput implements MouseListener{
             gamePage.addNewSlot(gamePage.enderBackpack.getInventorySize(), new MultiTools(gamePage.enderBackpack.inventory, gamePage.enderBackpack.slot));
             gamePage.addNewSlot(gamePage.enderBackpack.getInventorySize(), new PotionScatchel(game.gamePage));
             gamePage.mainChest.createSlot();
+            gamePage.sortingSystem.healthPotionChest.createSlot();
+            gamePage.sortingSystem.regenerationPotionChest.createSlot();
+            gamePage.sortingSystem.swiftnessPotionChest.createSlot();
+            gamePage.sortingSystem.leapingPotionChest.createSlot();
         }
     }
 

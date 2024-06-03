@@ -126,7 +126,7 @@ public class KeyboardInput implements KeyListener{
             if(e.getKeyChar()=='1' && !gamePage.isAttacking){
                 if(gamePage.onHand.getClass()==MultiTools.class){
                     MultiTools temp = (MultiTools)gamePage.onHand;
-                    temp.switchMode("Sword " + 1);
+                    temp.switchMode("Normal Sword");
                     System.out.println(1);
                     gamePage.timer = 0;
                     gamePage.drawName = true;
@@ -135,7 +135,7 @@ public class KeyboardInput implements KeyListener{
             else if(e.getKeyChar()=='2' && !gamePage.isAttacking){
                 if(gamePage.onHand.getClass()==MultiTools.class){
                     MultiTools temp = (MultiTools)gamePage.onHand;
-                    temp.switchMode("Sword " + 2);
+                    temp.switchMode("Lava Sword");
                     System.out.println(2);
                     gamePage.timer = 0;
                     gamePage.drawName = true;
@@ -144,7 +144,7 @@ public class KeyboardInput implements KeyListener{
             else if(e.getKeyChar()=='3' && !gamePage.isAttacking){
                 if(gamePage.onHand.getClass()==MultiTools.class){
                     MultiTools temp = (MultiTools)gamePage.onHand;
-                    temp.switchMode("Sword " + 3);
+                    temp.switchMode("Golden Ice Sword");
                     System.out.println(3);
                     gamePage.timer = 0;
                     gamePage.drawName = true;
@@ -153,7 +153,7 @@ public class KeyboardInput implements KeyListener{
             else if(e.getKeyChar()=='4' && !gamePage.isAttacking){
                 if(gamePage.onHand.getClass()==MultiTools.class){
                     MultiTools temp = (MultiTools)gamePage.onHand;
-                    temp.switchMode("Sword " + 4);
+                    temp.switchMode("Gummy Bear Sword");
                     System.out.println(4);
                     gamePage.timer = 0;
                     gamePage.drawName = true;

@@ -1,6 +1,7 @@
 package Pages;
 
 import Characters.Hero;
+import Characters.Monster;
 import Constants.*;
 import GUI.Game;
 import Input.*;
@@ -44,7 +45,8 @@ public class GamePage extends JPanel{
     public Hero currentHero;
     public int heroIndex = 0;
     public boolean enableInventory = true;
-    public MainChest mainChest;
+    public Chest mainChest;
+    public SortingSystem sortingSystem;
     public TeleportationTool teleporter;
     public ArrayList<JLabel> potionEffect= new ArrayList();
     public boolean enableMovement = true;
@@ -54,7 +56,7 @@ public class GamePage extends JPanel{
     public Image backgroundImage;
     public boolean drawName = false;
     public int timer = 0;
-    
+    public Monster[] iceMonster = new Monster[3];
     public GamePage(Game game) throws IOException{
         this.game = game;
         this.setBounds(0,0,Width,Height);
@@ -62,15 +64,25 @@ public class GamePage extends JPanel{
         this.setLayout(null);
         enderBackpack = new EnderBackpack();
         this.add(enderBackpack);
-        mainChest = new MainChest(this);
+        mainChest = new Chest(this);
         this.add(mainChest);
         teleporter = new TeleportationTool(this);
         this.add(teleporter);
+        sortingSystem = new SortingSystem(this);
+        this.add(sortingSystem.healthPotionChest);
+        this.add(sortingSystem.swiftnessPotionChest);
+        this.add(sortingSystem.regenerationPotionChest);
+        this.add(sortingSystem.leapingPotionChest);
         currentHero = game.heroes[heroIndex];
         backgroundImage = Constants.TreeHouseBackground;
+        initializeMonster();
         repaint();
     }
-    
+    public void initializeMonster(){
+        iceMonster[0] = new Monster(this, 500, "Golden Ice Sword");
+        iceMonster[1] = new Monster(this, 0, "Golden Ice Sword");
+        iceMonster[2] = new Monster(this, 200, "Golden Ice Sword");
+    }
     public void addEffect(JLabel effect){
         for(int i=0 ; i<potionEffect.size() ; i++){
             remove(potionEffect.get(i));
@@ -123,6 +135,10 @@ public class GamePage extends JPanel{
         teleporter.fireKingdomButton.addMouseListener(mouseIn);
         teleporter.iceKingdomButton.addMouseListener(mouseIn);
         teleporter.treeHouseButton.addMouseListener(mouseIn);
+        sortingSystem.healthPotionChest.addMouseListener(mouseIn);
+        sortingSystem.regenerationPotionChest.addMouseListener(mouseIn);
+        sortingSystem.swiftnessPotionChest.addMouseListener(mouseIn);
+        sortingSystem.leapingPotionChest.addMouseListener(mouseIn);
     }
     
     @Override
@@ -137,9 +153,9 @@ public class GamePage extends JPanel{
             g.drawImage(currentHero.animation[aniRow][aniCol], playerXPosition, playerYPosition - (int)jumpPosition,64,64, this);   
         g.setColor(Color.black);
         g.fillRect(playerXPosition + 3, playerYPosition-(int)jumpPosition - 10, 60, 12);    
-        g.setColor(Color.red);
+        g.setColor(Color.green);
         g.fillRect(playerXPosition + 4, playerYPosition-(int)jumpPosition - 9, (int)((double)58*(game.finn.getHp()/game.finn.getHpCapacity())), 10);    
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
         g.setFont(new Font("Serif", Font.PLAIN, 10));
         g.drawString((int)currentHero.getHp() + "",playerXPosition + 21,playerYPosition-(int)jumpPosition);
         if(onHand != null && onHand.getClass() == AdventurerDiary.class){
@@ -150,8 +166,18 @@ public class GamePage extends JPanel{
         if(teleporter.isExpanded)
             teleporter.drawMenu(g);
         if(onHand!=null && drawName){
+            g.setColor(Color.WHITE);
             g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
             g.drawString(onHand.toString(), 520, 620);
+        }
+        if(currentLocation.equals(Constants.iceKingdom)){
+            for(int i=0 ; i<iceMonster.length ; i++){
+                if(iceMonster[i].isAlive){
+                    iceMonster[i].move();
+                    iceMonster[i].drawMonster(g);
+                    iceMonster[i].giveDamage();
+                }
+            }
         }
     }
     
@@ -169,6 +195,11 @@ public class GamePage extends JPanel{
             aniChange++;
             if(aniChange>=50/currentHero.attackSpeed){
                 if(aniCol==3){
+                    if(currentLocation.equals(Constants.iceKingdom)){
+                        for(int i=0 ; i<iceMonster.length ; i++){
+                            iceMonster[i].damaged(onHand);
+                        }
+                    }
                     isAttacking = false;
                     aniRow = aniRow%2==0 ? 0 : 1;
                     aniCol = 2;

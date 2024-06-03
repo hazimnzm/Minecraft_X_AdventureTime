@@ -21,13 +21,14 @@ public class MultiTools extends Items{
         this.head = null;
         this.tail = null;
         this.current = head;
-        addTool("Sword " + 1,1, 100, 1);
-        addTool("Sword " + 2,1, 100, 2);
-        addTool("Sword " + 3,1, 100, 3);
-        addTool("Sword " + 4,1, 100, 4);
+        addTool("Normal Sword",1, 100, 1);
+        addTool("Lava Sword",1, 100, 2);
+        addTool("Golden Ice Sword",1, 100, 3);
+        addTool("Gummy Bear Sword",1, 100, 4);
         this.icon = head.icon;
         this.slot = slot;
         this.inventory = inventory;
+        name = "";
     }
 
     public void addTool(String type, int level, int initialDamage, int index) {
