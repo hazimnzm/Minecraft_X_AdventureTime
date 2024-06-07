@@ -53,8 +53,16 @@ public class MouseInput implements MouseListener{
                     if(gamePage.sortingSystem.swiftnessPotionChest.addItem((Items)gamePage.enderBackpack.inventory.get(i)))
                         gamePage.enderBackpack.removeItem(i);
                 }
+                else if(gamePage.securedChest.isOpen && !gamePage.securedChest.isFull()){
+                    if(gamePage.securedChest.addItem((Items)gamePage.enderBackpack.inventory.get(i)))
+                        gamePage.enderBackpack.removeItem(i);
+                }
                 else if(!gamePage.enderBackpack.isExpanded){
                     gamePage.enderBackpack.chooseItem(i, gamePage);
+                    if(gamePage.onHand.getClass() == MultiTools.class){
+                        gamePage.add(gamePage.upgradeButton);
+                        gamePage.add(gamePage.downgradeButton);
+                    }
                     System.out.println(gamePage.onHand);
                     gamePage.timer = 0;
                     gamePage.drawName = true;
@@ -82,6 +90,10 @@ public class MouseInput implements MouseListener{
             }
             else if(e.getSource()==gamePage.sortingSystem.swiftnessPotionChest.slot[i] && gamePage.sortingSystem.swiftnessPotionChest.slot[i].item != null){
                 Items temp  = gamePage.sortingSystem.swiftnessPotionChest.removeItem(i);
+                gamePage.addNewSlot(gamePage.enderBackpack.getInventorySize(), temp);
+            }
+            else if(e.getSource()==gamePage.securedChest.slot[i] && gamePage.securedChest.slot[i].item != null){
+                Items temp  = gamePage.securedChest.removeItem(i);
                 gamePage.addNewSlot(gamePage.enderBackpack.getInventorySize(), temp);
             }
         }
@@ -120,10 +132,42 @@ public class MouseInput implements MouseListener{
 
     @Override
     public void mousePressed(MouseEvent e) {
+        
         if(e.getSource()==startingPage.startButton){
             startingPage.startButton.setIcon(Constants.startButton[2]);
         }
-        else if(e.getSource() == gamePage.mainChest && gamePage.playerXPosition - 100 >= -65 && gamePage.playerXPosition - 100 < 32){
+        else if(e.getSource()==gamePage.encyclopedia){
+            gamePage.encyclopedia.setIcon(Constants.encyclopediaButton[2]);
+        }
+        else if(e.getSource()==gamePage.upgradeButton){
+            gamePage.upgradeButton.setIcon(Constants.upgradeButton[2]);
+        }
+        else if(e.getSource()==gamePage.downgradeButton){
+            gamePage.downgradeButton.setIcon(Constants.downgradeButton[2]);
+        }
+        else if(e.getSource()==gamePage.autoFarmerBlock){
+            gamePage.autoFarmerBlock.click();
+        }
+        
+        else if(e.getSource()==gamePage.securedChest.finnAccessButton[0]){
+            gamePage.securedChest.setPermissionAccess(game.finn,1);
+        }
+        else if(e.getSource()==gamePage.securedChest.finnAccessButton[1]){
+            gamePage.securedChest.setPermissionAccess(game.finn,2);
+        }
+        else if(e.getSource()==gamePage.securedChest.jakeAccessButton[0]){
+            gamePage.securedChest.setPermissionAccess(game.jake,1);
+        }
+        else if(e.getSource()==gamePage.securedChest.jakeAccessButton[1]){
+            gamePage.securedChest.setPermissionAccess(game.jake,2);
+        }
+        else if(e.getSource()==gamePage.securedChest.finnButton){
+            gamePage.securedChest.removePermission(game.finn);
+        }
+        else if(e.getSource()==gamePage.securedChest.jakeButton){
+            gamePage.securedChest.removePermission(game.jake);
+        }
+        else if(e.getSource() == gamePage.mainChest && gamePage.playerXPosition - 300 >= -65 && gamePage.playerXPosition - 300 < 32){
             if(gamePage.mainChest.isOpen){
                 gamePage.mainChest.setIcon(gamePage.mainChest.closeImage);
                 gamePage.mainChest.isOpen = false;
@@ -144,7 +188,8 @@ public class MouseInput implements MouseListener{
                 gamePage.mainChest.expand();
             }
         }
-        else if(e.getSource() == gamePage.sortingSystem.healthPotionChest && gamePage.playerXPosition - 200 >= -65 && gamePage.playerXPosition - 200 < 32){
+        
+        else if(e.getSource() == gamePage.sortingSystem.healthPotionChest && gamePage.playerXPosition - 400 >= -65 && gamePage.playerXPosition - 400 < 32){
             if(gamePage.sortingSystem.healthPotionChest.isOpen){
                 gamePage.sortingSystem.healthPotionChest.setIcon(gamePage.mainChest.closeImage);
                 gamePage.sortingSystem.healthPotionChest.isOpen = false;
@@ -165,7 +210,8 @@ public class MouseInput implements MouseListener{
                 gamePage.sortingSystem.healthPotionChest.expand();
             }
         }
-        else if(e.getSource() == gamePage.sortingSystem.regenerationPotionChest && gamePage.playerXPosition - 200 >= -65 && gamePage.playerXPosition - 200 < 32){
+        
+        else if(e.getSource() == gamePage.sortingSystem.regenerationPotionChest && gamePage.playerXPosition - 400 >= -65 && gamePage.playerXPosition - 400 < 32){
             if(gamePage.sortingSystem.regenerationPotionChest.isOpen){
                 gamePage.sortingSystem.regenerationPotionChest.setIcon(gamePage.mainChest.closeImage);
                 gamePage.sortingSystem.regenerationPotionChest.isOpen = false;
@@ -186,7 +232,8 @@ public class MouseInput implements MouseListener{
                 gamePage.sortingSystem.regenerationPotionChest.expand();
             }
         }
-        else if(e.getSource() == gamePage.sortingSystem.swiftnessPotionChest && gamePage.playerXPosition - 200 >= -65 && gamePage.playerXPosition - 200 < 32){
+        
+        else if(e.getSource() == gamePage.sortingSystem.swiftnessPotionChest && gamePage.playerXPosition - 400 >= -65 && gamePage.playerXPosition - 400 < 32){
             if(gamePage.sortingSystem.swiftnessPotionChest.isOpen){
                 gamePage.sortingSystem.swiftnessPotionChest.setIcon(gamePage.mainChest.closeImage);
                 gamePage.sortingSystem.swiftnessPotionChest.isOpen = false;
@@ -207,7 +254,8 @@ public class MouseInput implements MouseListener{
                 gamePage.sortingSystem.swiftnessPotionChest.expand();
             }
         }
-        else if(e.getSource() == gamePage.sortingSystem.leapingPotionChest && gamePage.playerXPosition - 200 >= -65 && gamePage.playerXPosition - 200 < 32){
+        
+        else if(e.getSource() == gamePage.sortingSystem.leapingPotionChest && gamePage.playerXPosition - 400 >= -65 && gamePage.playerXPosition - 400 < 32){
             if(gamePage.sortingSystem.leapingPotionChest.isOpen){
                 gamePage.sortingSystem.leapingPotionChest.setIcon(gamePage.mainChest.closeImage);
                 gamePage.sortingSystem.leapingPotionChest.isOpen = false;
@@ -228,6 +276,29 @@ public class MouseInput implements MouseListener{
                 gamePage.sortingSystem.leapingPotionChest.expand();
             }
         }
+        
+        else if(e.getSource() == gamePage.securedChest && gamePage.playerXPosition - 435 >= -65 && gamePage.playerXPosition - 435 < 32 && gamePage.securedChest.getPermissionLevel(gamePage.currentHero)>0){
+            if(gamePage.securedChest.isOpen){
+                gamePage.securedChest.setIcon(gamePage.securedChest.closeImage);
+                gamePage.securedChest.isOpen = false;
+                gamePage.enableMovement = true;
+                gamePage.enableInventory = true;
+                gamePage.enableDiary = true;
+                gamePage.enableScatchel = true;
+                gamePage.securedChest.minimize();;
+            }
+            else{
+                gamePage.securedChest.setIcon(gamePage.securedChest.openImage);
+                gamePage.securedChest.isOpen = true;
+                gamePage.enableMovement = false;
+                gamePage.enableInventory = false;
+                gamePage.enableDiary = false;
+                gamePage.enableScatchel = false;
+                gamePage.move = false;
+                gamePage.securedChest.expand();
+            }
+        }
+        
         else if(e.getSource() == gamePage.teleporter && gamePage.playerXPosition - 1120 >= -65 && gamePage.playerXPosition - 1120 < 100){
             if(gamePage.teleporter.isExpanded){
                 gamePage.teleporter.minimize();
@@ -250,27 +321,41 @@ public class MouseInput implements MouseListener{
         else if(e.getSource() == gamePage.teleporter.treeHouseButton)
             try {
                 gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.treeHouse);
+                gamePage.creatures.clear();
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(MouseInput.class.getName()).log(Level.SEVERE, null, ex);
         }
         else if(e.getSource() == gamePage.teleporter.iceKingdomButton)
             try {
                 gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.iceKingdom);
+                gamePage.creatures.clear();
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(MouseInput.class.getName()).log(Level.SEVERE, null, ex);
         }
         else if(e.getSource() == gamePage.teleporter.fireKingdomButton)
             try {
                 gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.fireKingdom);
+                gamePage.creatures.clear();
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(MouseInput.class.getName()).log(Level.SEVERE, null, ex);
         }
         else if(e.getSource() == gamePage.teleporter.candyKingdomButton)
             try {
                 gamePage.teleporter.checkAndTeleport(gamePage.currentLocation, Constants.candyKingdom);
+                gamePage.creatures.clear();
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(MouseInput.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        else
+            for(int i=0 ; i<5 ; i++){
+                if(e.getSource() == gamePage.cropField[i]){
+                    if(gamePage.cropField[i].isPlanted)
+                        gamePage.cropField[i].harvest();
+                    else
+                        gamePage.cropField[i].plant();
+                }
+            }
     }
 
     @Override
@@ -289,6 +374,28 @@ public class MouseInput implements MouseListener{
             gamePage.sortingSystem.regenerationPotionChest.createSlot();
             gamePage.sortingSystem.swiftnessPotionChest.createSlot();
             gamePage.sortingSystem.leapingPotionChest.createSlot();
+            gamePage.securedChest.createSlot();
+        }
+        else if(e.getSource()==gamePage.encyclopedia){
+            gamePage.encyclopedia.setIcon(Constants.encyclopediaButton[0]);
+            gamePage.encyclopedia.isExpanded = !gamePage.encyclopedia.isExpanded;
+        }
+        else if(e.getSource()==gamePage.upgradeButton){
+            gamePage.upgradeButton.setIcon(Constants.upgradeButton[0]);
+            MultiTools temp = (MultiTools)gamePage.onHand;
+            temp.upgrade();
+            gamePage.timer=0;
+            gamePage.drawName = true;
+        }
+        else if(e.getSource()==gamePage.downgradeButton){
+            gamePage.downgradeButton.setIcon(Constants.downgradeButton[0]);
+            MultiTools temp = (MultiTools)gamePage.onHand;
+            temp.downgrade();
+            gamePage.timer=0;
+            gamePage.drawName = true;
+        }
+        else if(e.getSource()==gamePage.autoFarmerBlock){
+            gamePage.autoFarmerBlock.release();
         }
     }
 
@@ -309,6 +416,25 @@ public class MouseInput implements MouseListener{
         else if(e.getSource()==gamePage.teleporter.treeHouseButton && gamePage.teleporter.treeHouseButton.isEnabled()){
             gamePage.teleporter.treeHouseButton.setIcon(Constants.treeHouseButton[1]);
         }
+        else if(e.getSource()==gamePage.encyclopedia){
+            gamePage.encyclopedia.setIcon(Constants.encyclopediaButton[1]);
+        }
+        else if(e.getSource()==gamePage.upgradeButton){
+            gamePage.upgradeButton.setIcon(Constants.upgradeButton[1]);
+        }
+        else if(e.getSource()==gamePage.downgradeButton){
+            gamePage.downgradeButton.setIcon(Constants.downgradeButton[1]);
+        }
+        else if(e.getSource()==gamePage.autoFarmerBlock){
+            gamePage.autoFarmerBlock.hover();
+        }
+        else{
+            for(int i=0 ; i<5 ; i++){
+                if(e.getSource() == gamePage.cropField[i]){
+                    gamePage.cropField[i].hover();
+                }
+            }
+        }
     }
 
     @Override
@@ -327,6 +453,25 @@ public class MouseInput implements MouseListener{
         }
         else if(e.getSource()==gamePage.teleporter.treeHouseButton && gamePage.teleporter.treeHouseButton.isEnabled()){
             gamePage.teleporter.treeHouseButton.setIcon(Constants.treeHouseButton[0]);
+        }
+        else if(e.getSource()==gamePage.encyclopedia){
+            gamePage.encyclopedia.setIcon(Constants.encyclopediaButton[0]);
+        }
+        else if(e.getSource()==gamePage.upgradeButton){
+            gamePage.upgradeButton.setIcon(Constants.upgradeButton[0]);
+        }
+        else if(e.getSource()==gamePage.downgradeButton){
+            gamePage.downgradeButton.setIcon(Constants.downgradeButton[0]);
+        }
+        else if(e.getSource()==gamePage.autoFarmerBlock){
+            gamePage.autoFarmerBlock.exit();
+        }
+        else{
+            for(int i=0 ; i<5 ; i++){
+                if(e.getSource() == gamePage.cropField[i]){
+                    gamePage.cropField[i].update();
+                }
+            }
         }
     }
         

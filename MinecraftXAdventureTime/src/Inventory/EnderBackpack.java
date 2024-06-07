@@ -25,12 +25,14 @@ public class EnderBackpack<T extends Items> extends JPanel{
     Color chosenColor = new Color(21,91,99);
     private Border defaultBorder = BorderFactory.createLineBorder(defaultColor,2);
     private Border chosenBorder = BorderFactory.createLineBorder(chosenColor,3);
+    GamePage gamePage;
     //constructor
-    public EnderBackpack() {
+    public EnderBackpack(GamePage gamePage) {
         this.inventory = new ArrayList<>();
         this.setBackground(Color.DARK_GRAY);
         this.setBounds(1280/2-389/2,650,389,45);
         this.setLayout(null);
+        this.gamePage = gamePage;
     }
     
     public void addItem(T item, BackpackButton newButton) {
@@ -41,8 +43,10 @@ public class EnderBackpack<T extends Items> extends JPanel{
 
     public void removeItem(int index) {
         try {
-            inventory.remove(index);
             slot.remove(index);
+            Items removed = inventory.remove(index);
+            if(gamePage.onHand!=null && gamePage.onHand.equals(removed))
+                gamePage.onHand = null;
             updateInventory();
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());

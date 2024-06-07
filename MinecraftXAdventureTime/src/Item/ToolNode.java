@@ -13,8 +13,8 @@ import javax.swing.ImageIcon;
 public class ToolNode {
     private String type;
     private int level;
+    private final int maxLevel = 11;
     private int damage;
-    private static final int MAX_DAMAGE = 100;
     ImageIcon icon;
     ToolNode prev;
     ToolNode next;
@@ -48,8 +48,10 @@ public class ToolNode {
     
     
     public void upgrade() {
-        this.level++;
-        increaseDamage(10); // Increase damage by 10 when upgrading
+        if(this.level<maxLevel){
+            this.level++;
+            increaseDamage(10); // Increase damage by 10 when upgrading
+        }
     }
     
     
@@ -64,18 +66,12 @@ public class ToolNode {
     
     private void increaseDamage(int amount) {
         this.damage += amount;
-        if (this.damage > MAX_DAMAGE) {
-            this.damage = MAX_DAMAGE; // Cap the damage to MAX_DAMAGE
-        }
     }
     
     
     
     private void decreaseDamage(int amount) {
         this.damage -= amount;
-        if (this.damage < 0) {
-            this.damage = 0; // Ensure damage does not go below 0
-        }
     }
     
     

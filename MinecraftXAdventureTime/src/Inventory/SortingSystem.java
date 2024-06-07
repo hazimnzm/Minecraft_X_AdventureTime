@@ -17,10 +17,10 @@ public class SortingSystem {
         swiftnessPotionChest = new FilteredChest(gamePage, "Potion of Swiftness");
         regenerationPotionChest = new FilteredChest(gamePage, "Potion of Regeneration");
         leapingPotionChest = new FilteredChest(gamePage, "Potion of Leaping");
-        healthPotionChest.setBounds(200,513,22,40);
-        swiftnessPotionChest.setBounds(225,513,22,40);
-        regenerationPotionChest.setBounds(200,483,22,40);
-        leapingPotionChest.setBounds(225,483,22,40);
+        healthPotionChest.setBounds(400,513,22,40);
+        swiftnessPotionChest.setBounds(425,513,22,40);
+        regenerationPotionChest.setBounds(400,483,22,40);
+        leapingPotionChest.setBounds(425,483,22,40);
         tree.insert(healthPotionChest);
         tree.insert(leapingPotionChest);
         tree.insert(regenerationPotionChest);

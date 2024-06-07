@@ -76,10 +76,24 @@ public class TeleportationTool extends JButton {
     if (tool.hasVertex(source) && tool.hasVertex(destination)) {
         if (tool.hasEdge(source, destination)) {
             gamePage.remove(gamePage.mainChest);
+            gamePage.remove(gamePage.sortingSystem.healthPotionChest);
+            gamePage.remove(gamePage.sortingSystem.regenerationPotionChest);
+            gamePage.remove(gamePage.sortingSystem.leapingPotionChest);
+            gamePage.remove(gamePage.sortingSystem.swiftnessPotionChest);
+            for(int i=0 ; i<5 ; i++){
+                gamePage.remove(gamePage.cropField[i]);
+            }
             //showKingdomInfo(destination);
             gamePage.currentLocation = destination;
             if(gamePage.currentLocation == Constants.treeHouse){
                 gamePage.add(gamePage.mainChest);
+                gamePage.add(gamePage.sortingSystem.healthPotionChest);
+                gamePage.add(gamePage.sortingSystem.regenerationPotionChest);
+                gamePage.add(gamePage.sortingSystem.leapingPotionChest);
+                gamePage.add(gamePage.sortingSystem.swiftnessPotionChest);
+                for(int i=0 ; i<5 ; i++){
+                gamePage.add(gamePage.cropField[i]);
+            }
             }
             if(gamePage.currentLocation.equals(Constants.treeHouse)){
                 gamePage.backgroundImage = Constants.TreeHouseBackground;

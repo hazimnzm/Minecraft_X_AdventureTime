@@ -6,9 +6,6 @@ import Item.*;
 import Pages.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class KeyboardInput implements KeyListener{
     

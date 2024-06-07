@@ -18,7 +18,6 @@ public class Hero {
     public BufferedImage[][] animation;
     int attackLength;
     int moveLength;
-    
     public Hero(){
         
     }
@@ -82,5 +81,9 @@ public class Hero {
                 }
             }
         }
+    }
+    
+    public void respawn(){
+        hp = hpCapacity;
     }
 }

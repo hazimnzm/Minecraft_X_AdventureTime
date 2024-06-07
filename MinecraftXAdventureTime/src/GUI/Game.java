@@ -14,7 +14,6 @@ public class Game implements Runnable{
     public Hero finn = new Hero(5000 , "Finn", 4,6);
     public Hero jake = new Hero(5000 , "Jake", 4,6);
     public Hero[] heroes = {finn,jake};
-    public EnderBackpack<Items> backPack = new EnderBackpack();
     private Thread gameThread; 
     private final int FPS_SET = 100;
     private final int UPS_SET = 120;
@@ -85,6 +84,10 @@ public class Game implements Runnable{
                     gamePage.timer = 0;
                     gamePage.drawName = false;
                 }
+                for(int i=0 ; i<5 ; i++){
+                    gamePage.cropField[i].grow();
+                }
+                
             }
         }
     }

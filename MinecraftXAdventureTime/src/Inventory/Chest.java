@@ -25,7 +25,7 @@ public class Chest extends JButton{
     GamePage gamePage;
     public Chest(GamePage gamePage){
         this.gamePage = gamePage;
-        this.setBounds(100,513,22,40);
+        this.setBounds(300,513,22,40);
         this.setBackground(Color.black);
         this.setOpaque(false);
         this.setBorder(null);

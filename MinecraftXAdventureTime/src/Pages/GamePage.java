@@ -1,7 +1,6 @@
 package Pages;
 
-import Characters.Hero;
-import Characters.Monster;
+import Characters.*;
 import Constants.*;
 import GUI.Game;
 import Input.*;
@@ -11,10 +10,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.KeyboardFocusManager;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -46,6 +46,7 @@ public class GamePage extends JPanel{
     public int heroIndex = 0;
     public boolean enableInventory = true;
     public Chest mainChest;
+    public SecuredChest securedChest;
     public SortingSystem sortingSystem;
     public TeleportationTool teleporter;
     public ArrayList<JLabel> potionEffect= new ArrayList();
@@ -56,13 +57,19 @@ public class GamePage extends JPanel{
     public Image backgroundImage;
     public boolean drawName = false;
     public int timer = 0;
-    public Monster[] iceMonster = new Monster[3];
+    public ArrayList<Creature> creatures = new ArrayList();
+    public Random rand = new Random();
+    public Encyclopedia encyclopedia;
+    public JButton upgradeButton = new JButton();
+    public JButton downgradeButton = new JButton();
+    public Crops[] cropField;
+    public AutoFarmerBlock autoFarmerBlock;
     public GamePage(Game game) throws IOException{
         this.game = game;
         this.setBounds(0,0,Width,Height);
         this.setBackground(Color.white);
         this.setLayout(null);
-        enderBackpack = new EnderBackpack();
+        enderBackpack = new EnderBackpack(this);
         this.add(enderBackpack);
         mainChest = new Chest(this);
         this.add(mainChest);
@@ -73,15 +80,34 @@ public class GamePage extends JPanel{
         this.add(sortingSystem.swiftnessPotionChest);
         this.add(sortingSystem.regenerationPotionChest);
         this.add(sortingSystem.leapingPotionChest);
+        encyclopedia = new Encyclopedia(this);
+        this.add(encyclopedia);
+        autoFarmerBlock = new AutoFarmerBlock();
+        this.add(autoFarmerBlock);
+        securedChest = new SecuredChest(this, game);
+        this.add(securedChest);
         currentHero = game.heroes[heroIndex];
         backgroundImage = Constants.TreeHouseBackground;
-        initializeMonster();
+        initializeButton();
+        initializeCrop();
         repaint();
     }
-    public void initializeMonster(){
-        iceMonster[0] = new Monster(this, 500, "Golden Ice Sword");
-        iceMonster[1] = new Monster(this, 0, "Golden Ice Sword");
-        iceMonster[2] = new Monster(this, 200, "Golden Ice Sword");
+    public void initializeCrop(){
+        cropField = new Crops[5];
+        for(int i=0 ; i<5 ; i++){
+            cropField[i] = new Crops(i);
+            this.add(cropField[i]);
+        }
+    }
+    public void initializeButton(){
+        upgradeButton.setIcon(Constants.upgradeButton[0]);
+        downgradeButton.setIcon(Constants.downgradeButton[0]);
+        upgradeButton.setBounds(20,200,63,46);
+        downgradeButton.setBounds(20,260,63,46);
+        upgradeButton.setContentAreaFilled(false);
+        upgradeButton.setBorderPainted(false);
+        downgradeButton.setContentAreaFilled(false);
+        downgradeButton.setBorderPainted(false);
     }
     public void addEffect(JLabel effect){
         for(int i=0 ; i<potionEffect.size() ; i++){
@@ -139,6 +165,20 @@ public class GamePage extends JPanel{
         sortingSystem.regenerationPotionChest.addMouseListener(mouseIn);
         sortingSystem.swiftnessPotionChest.addMouseListener(mouseIn);
         sortingSystem.leapingPotionChest.addMouseListener(mouseIn);
+        encyclopedia.addMouseListener(mouseIn);
+        upgradeButton.addMouseListener(mouseIn);
+        downgradeButton.addMouseListener(mouseIn);
+        for(int i=0 ; i<cropField.length ; i++){
+            cropField[i].addMouseListener(mouseIn);
+        }
+        autoFarmerBlock.addMouseListener(mouseIn);
+        securedChest.addMouseListener(mouseIn);
+        securedChest.finnAccessButton[0].addMouseListener(mouseIn);
+        securedChest.finnAccessButton[1].addMouseListener(mouseIn);
+        securedChest.jakeAccessButton[0].addMouseListener(mouseIn);
+        securedChest.jakeAccessButton[1].addMouseListener(mouseIn);
+        securedChest.finnButton.addMouseListener(mouseIn);
+        securedChest.jakeButton.addMouseListener(mouseIn);
     }
     
     @Override
@@ -154,8 +194,8 @@ public class GamePage extends JPanel{
         g.setColor(Color.black);
         g.fillRect(playerXPosition + 3, playerYPosition-(int)jumpPosition - 10, 60, 12);    
         g.setColor(Color.green);
-        g.fillRect(playerXPosition + 4, playerYPosition-(int)jumpPosition - 9, (int)((double)58*(game.finn.getHp()/game.finn.getHpCapacity())), 10);    
-        g.setColor(Color.BLACK);
+        g.fillRect(playerXPosition + 4, playerYPosition-(int)jumpPosition - 9, (int)((double)58*(currentHero.getHp()/currentHero.getHpCapacity())), 10);    
+        g.setColor(Color.darkGray);
         g.setFont(new Font("Serif", Font.PLAIN, 10));
         g.drawString((int)currentHero.getHp() + "",playerXPosition + 21,playerYPosition-(int)jumpPosition);
         if(onHand != null && onHand.getClass() == AdventurerDiary.class){
@@ -163,22 +203,27 @@ public class GamePage extends JPanel{
             if(temp.isExpanded)
                 temp.expandDiary(g);
         }
-        if(teleporter.isExpanded)
-            teleporter.drawMenu(g);
+        if(onHand!=null && !(onHand.getClass() == MultiTools.class)){
+            this.remove(upgradeButton);
+            this.remove(downgradeButton);
+        }
+            
         if(onHand!=null && drawName){
             g.setColor(Color.WHITE);
             g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
             g.drawString(onHand.toString(), 520, 620);
         }
-        if(currentLocation.equals(Constants.iceKingdom)){
-            for(int i=0 ; i<iceMonster.length ; i++){
-                if(iceMonster[i].isAlive){
-                    iceMonster[i].move();
-                    iceMonster[i].drawMonster(g);
-                    iceMonster[i].giveDamage();
-                }
-            }
+        for(int i=0 ; i<creatures.size() ; i++){
+            creatures.get(i).drawCreature(g);
         }
+        if(teleporter.isExpanded)
+            teleporter.drawMenu(g);
+        if(encyclopedia.isExpanded)
+            encyclopedia.expand(g);
+        spawningAlgorithm();
+        if(!currentHero.isAlive())
+            resetGame();
+        autoFarmerBlock.performTaskStep(cropField);
     }
     
     public void animateCharacter(){
@@ -195,10 +240,8 @@ public class GamePage extends JPanel{
             aniChange++;
             if(aniChange>=50/currentHero.attackSpeed){
                 if(aniCol==3){
-                    if(currentLocation.equals(Constants.iceKingdom)){
-                        for(int i=0 ; i<iceMonster.length ; i++){
-                            iceMonster[i].damaged(onHand);
-                        }
+                    for(int i=0 ; i<creatures.size() ; i++){
+                        creatures.get(i).damaged(onHand);
                     }
                     isAttacking = false;
                     aniRow = aniRow%2==0 ? 0 : 1;
@@ -239,6 +282,43 @@ public class GamePage extends JPanel{
             if(playerXPosition + currentHero.speed * horizontalDir>-10 && playerXPosition + currentHero.speed * horizontalDir<1228)
                 playerXPosition += currentHero.speed*horizontalDir;
         }
-
+    }
+    
+    public void spawningAlgorithm(){
+        int num = rand.nextInt(600);
+        if(num==40){
+            switch(currentLocation){
+                case Constants.iceKingdom:
+                    creatures.add(encyclopedia.createMonster("Ice Golem"));
+                    break;
+                case Constants.fireKingdom:
+                    creatures.add(encyclopedia.createMonster("Lava Golem"));
+                    break;
+                case Constants.candyKingdom:
+                    creatures.add(encyclopedia.createMonster("Bubble Gum Golem"));
+                    break;
+                case Constants.treeHouse:
+                    creatures.add(encyclopedia.createCreature("Sheep"));
+                    break;
+            }
+        }
+    }
+    
+    public void resetGame(){
+        playerXPosition = 0;
+        creatures.clear();
+        currentLocation = Constants.treeHouse;
+        backgroundImage = Constants.TreeHouseBackground;
+        game.finn.respawn();
+        game.jake.respawn();
+        add(mainChest);
+        add(sortingSystem.healthPotionChest);
+        add(sortingSystem.regenerationPotionChest);
+        add(sortingSystem.leapingPotionChest);
+        add(sortingSystem.swiftnessPotionChest);
+        add(securedChest);
+        for(int i=0 ; i<0 ; i++){
+            this.add(cropField[i]);
+        }
     }
 }
