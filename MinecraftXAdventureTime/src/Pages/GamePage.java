@@ -317,7 +317,8 @@ public class GamePage extends JPanel{
         add(sortingSystem.leapingPotionChest);
         add(sortingSystem.swiftnessPotionChest);
         add(securedChest);
-        for(int i=0 ; i<0 ; i++){
+        add(autoFarmerBlock);
+        for(int i=0 ; i<cropField.length ; i++){
             this.add(cropField[i]);
         }
     }

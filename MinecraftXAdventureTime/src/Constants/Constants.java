@@ -58,6 +58,7 @@ public class Constants {
     public final static Image FireKingdomBackground = new ImageIcon("Background Image/Fire Kingdom Background.png").getImage();
     public final static Image IceKingdomBackground = new ImageIcon("Background Image/Ice Kingdom Background.png").getImage();
     public final static Image CandyKingdomBackground = new ImageIcon("Background Image/Candy Kingdom Background.png").getImage();
+    public final static Image LoadingPageBackground = new ImageIcon("Background Image/Loading Page Background.png").getImage();
    
     public final static String treeHouse = "Tree House";
     public final static String iceKingdom = "Ice Kingdom";

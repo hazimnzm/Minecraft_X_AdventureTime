@@ -10,6 +10,7 @@ public class Game implements Runnable{
     public GamePanel gamePanel;
     public GameWindow gameWindow;
     public StartingPage startingPage;
+    public LoadingPage loadingPage;
     public GamePage gamePage;
     public Hero finn = new Hero(5000 , "Finn", 4,6);
     public Hero jake = new Hero(5000 , "Jake", 4,6);
@@ -23,6 +24,7 @@ public class Game implements Runnable{
         jake.loadAnimation();
         gamePage = new GamePage(this);
         startingPage = new StartingPage(this);
+        loadingPage = new LoadingPage(this);
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         startingPage.initializeStartButton();
@@ -63,6 +65,9 @@ public class Game implements Runnable{
                 DeltaF--;
                 gamePage.repaint();
                 gamePage.requestFocus();
+                if(loadingPage.isLoading){
+                    loadingPage.repaint();
+                }
                 frame++;
             }
             

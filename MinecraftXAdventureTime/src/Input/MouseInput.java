@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 public class MouseInput implements MouseListener{
     StartingPage startingPage;
+    LoadingPage loadingPage;
     GamePanel gamePanel;
     GamePage gamePage;
     Game game;
@@ -22,6 +23,7 @@ public class MouseInput implements MouseListener{
         gamePage = this.game.gamePage;
         startingPage = this.game.startingPage;
         gamePanel = this.game.gamePanel;
+        loadingPage = this.game.loadingPage;
     }
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -362,9 +364,9 @@ public class MouseInput implements MouseListener{
     public void mouseReleased(MouseEvent e) {
         if(e.getSource()==startingPage.startButton){
             startingPage.startButton.setIcon(Constants.startButton[1]);
-            gamePanel.remove(startingPage);
-            gamePanel.add(gamePage);
-            gamePage.setupInput();
+            gamePanel.remove(startingPage);            
+            gamePanel.add(loadingPage);
+            loadingPage.isLoading = true;
             gamePage.diary = new AdventurerDiary();
             gamePage.addNewSlot(gamePage.enderBackpack.getInventorySize(), gamePage.diary);
             gamePage.addNewSlot(gamePage.enderBackpack.getInventorySize(), new MultiTools(gamePage.enderBackpack.inventory, gamePage.enderBackpack.slot));

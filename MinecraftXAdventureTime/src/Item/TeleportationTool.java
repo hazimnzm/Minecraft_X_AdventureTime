@@ -80,6 +80,8 @@ public class TeleportationTool extends JButton {
             gamePage.remove(gamePage.sortingSystem.regenerationPotionChest);
             gamePage.remove(gamePage.sortingSystem.leapingPotionChest);
             gamePage.remove(gamePage.sortingSystem.swiftnessPotionChest);
+            gamePage.remove(gamePage.autoFarmerBlock);
+            gamePage.remove(gamePage.securedChest);
             for(int i=0 ; i<5 ; i++){
                 gamePage.remove(gamePage.cropField[i]);
             }
@@ -91,6 +93,8 @@ public class TeleportationTool extends JButton {
                 gamePage.add(gamePage.sortingSystem.regenerationPotionChest);
                 gamePage.add(gamePage.sortingSystem.leapingPotionChest);
                 gamePage.add(gamePage.sortingSystem.swiftnessPotionChest);
+                gamePage.add(gamePage.autoFarmerBlock);
+                gamePage.add(gamePage.securedChest);
                 for(int i=0 ; i<5 ; i++){
                 gamePage.add(gamePage.cropField[i]);
             }

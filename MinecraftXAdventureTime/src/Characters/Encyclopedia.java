@@ -80,6 +80,6 @@ public class Encyclopedia extends JButton{
         addCreature(new Monster("Bubble Gum Golem", Constants.candyKingdom, "Gummy Bear Sword", 0, 2, 1000, Constants.BubbleGumGolemImage, gamePage,1));
     }
     public void expand(Graphics g){
-        g.drawImage(new ImageIcon("Item Image/Encyclopedia.png").getImage(),1280/2 - 732/2,720/2 - 552/2,null);
+        g.drawImage(new ImageIcon("Item Image/Encyclopedia.png").getImage(),1280/2 - 732/2,720/2 - 552/2-100,null);
     }
 }
